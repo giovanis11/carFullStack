@@ -14,7 +14,7 @@
   }
 
   body {
-    background-color: #0a0a0a;
+    background-color: #000000;
     color: #ffffff;
     font-family: 'Manrope', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -30,7 +30,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #141414;
+    background: #000000;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -53,11 +53,11 @@
   }
 
   .card {
-    @apply bg-card border border-border;
+    @apply bg-black border border-border;
   }
 
   .input-field {
-    @apply w-full bg-[#1a1a1a] border border-border text-primary px-4 py-3 focus:outline-none focus:border-gold transition-colors placeholder-secondary text-sm;
+    @apply w-full bg-black border border-border text-primary px-4 py-3 focus:outline-none focus:border-gold transition-colors placeholder-secondary text-sm;
   }
 
   .label {

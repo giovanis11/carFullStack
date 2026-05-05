@@ -63,14 +63,14 @@ export default function Rent() {
         <div className="relative max-w-3xl mx-auto px-4 pt-14 pb-10 text-center">
           {/* Title */}
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-4">
-            {lang === 'el' ? 'Ο στόλος μας' : 'Our Fleet'}
+            {lang === 'el' ? 'Ο Στόλος μας' : 'Our Fleet'}
           </h1>
 
         </div>
       </div>
 
       {/* ── Toolbar ── */}
-      <div className="border-y border-border bg-[#0d0d0d]">
+      <div className="border-y border-border bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
 
           {/* Left: Filter button */}
@@ -120,7 +120,7 @@ export default function Rent() {
                       key={opt.value}
                       onClick={() => handleSort(opt.value)}
                       className={`block w-full text-left px-4 py-2.5 text-xs transition-colors ${
-                        ordering === opt.value ? 'text-gold bg-gold/5' : 'text-secondary hover:text-primary hover:bg-[#1a1a1a]'
+                        ordering === opt.value ? 'text-gold bg-gold/5' : 'text-secondary hover:text-primary hover:bg-black'
                       }`}
                     >
                       {lang === 'el' ? opt.labelEl : opt.labelEn}

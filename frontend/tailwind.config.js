@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0a0a0a',
-        card: '#141414',
+        bg: '#000000',
+        card: '#000000',
         gold: '#C9A84C',
         'gold-hover': '#b8942e',
         primary: '#FFFFFF',

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Logo from './Logo'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
@@ -22,15 +23,12 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
-            <span className="font-heading flex flex-col leading-none">
-              <span className="text-xl font-bold tracking-[0.2em] text-primary">LEKS<span className="text-gold">CAR</span></span>
-              <span className="text-[9px] font-semibold tracking-[0.35em] text-gold/70 uppercase">Rental</span>
-            </span>
+            <Logo className="h-[4.5rem] w-auto" />
           </Link>
 
           {/* Desktop Nav — right aligned */}
@@ -45,7 +43,7 @@ export default function Navbar() {
                     : location.pathname === '/' && path === '/'
                     ? 'text-gold'
                     : 'text-secondary hover:text-primary'
-                }`}
+                } uppercase`}
               >
                 {label}
               </Link>
@@ -84,7 +82,7 @@ export default function Navbar() {
                 key={path}
                 to={path}
                 onClick={() => setMenuOpen(false)}
-                className={`block py-3 text-sm font-medium border-b border-border last:border-0 transition-colors ${
+                className={`block py-3 text-sm font-medium border-b border-border last:border-0 transition-colors uppercase ${
                   isActive(path) ? 'text-gold' : 'text-secondary hover:text-primary'
                 }`}
               >

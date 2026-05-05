@@ -19,7 +19,7 @@ class CarAdmin(admin.ModelAdmin):
 
 @admin.register(RentalRequest)
 class RentalRequestAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'phone', 'car', 'pickup_date', 'return_date', 'status', 'created_at']
+    list_display = ['full_name', 'phone', 'driver_age', 'car', 'pickup_date', 'return_date', 'status', 'created_at']
     list_filter = ['status', 'created_at']
     search_fields = ['full_name', 'phone', 'email']
     list_editable = ['status']

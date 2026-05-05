@@ -41,16 +41,16 @@ export default function CarCard({ car, mode = 'rent' }) {
   const transmissionLabel = t(`transmission.${car.transmission}`, { defaultValue: car.transmission_display || car.transmission })
   const fuelLabel = t(`fuel.${car.fuel_type}`, { defaultValue: car.fuel_display || car.fuel_type })
 
-  const priceLabel = mode === 'rent' && car.price_per_day
+  const priceValue = mode === 'rent' && car.price_per_day
     ? `€${parseFloat(car.price_per_day).toLocaleString()}/${t('rent.per_day').replace('/ ', '')}`
     : car.sale_price
     ? `€${parseFloat(car.sale_price).toLocaleString()}`
     : null
 
   return (
-    <div className="bg-black border border-border rounded-xl group flex flex-col overflow-hidden transition-all duration-300 hover:border-gold hover:shadow-xl hover:shadow-gold/10">
+    <div className="bg-black border border-border rounded-xl group flex flex-col overflow-hidden transition-all duration-300 hover:border-gold/45 hover:shadow-xl hover:shadow-gold/10">
       {/* Image — fully tappable */}
-      <Link to={detailPath} className="relative overflow-hidden aspect-[16/10] bg-[#111] block">
+      <Link to={detailPath} className="relative overflow-hidden aspect-[16/10] bg-black block">
         <img
           src={car.primary_image_url || PLACEHOLDER}
           alt={`${car.brand} ${car.name}`}
@@ -73,9 +73,9 @@ export default function CarCard({ car, mode = 'rent' }) {
         {/* Name row + price badge */}
         <div className="flex items-start justify-between gap-3 mb-1">
           <h3 className="text-base font-bold text-primary leading-snug">{car.brand} {car.name}</h3>
-          {priceLabel && (
-            <span className="shrink-0 bg-gold text-black text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
-              {priceLabel}
+          {priceValue && (
+            <span className="shrink-0 bg-black border border-white text-white text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+              {priceValue}
             </span>
           )}
         </div>
@@ -110,7 +110,7 @@ export default function CarCard({ car, mode = 'rent' }) {
           </span>
           <Link
             to={detailPath}
-            className="text-xs font-bold bg-gold text-black px-4 py-2 rounded-md hover:bg-gold-hover transition-colors duration-200"
+            className="text-xs font-bold bg-gold border border-gold text-black px-4 py-2 rounded-md hover:bg-[#e6c76a] hover:border-[#e6c76a] transition-colors duration-200"
           >
             {mode === 'rent' ? t('rent.view_details') : t('buy.view_details')}
           </Link>

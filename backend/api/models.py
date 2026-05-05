@@ -83,6 +83,7 @@ class RentalRequest(models.Model):
     full_name = models.CharField(max_length=200)
     phone = models.CharField(max_length=30)
     email = models.EmailField()
+    driver_age = models.PositiveIntegerField()
     pickup_date = models.DateField()
     return_date = models.DateField()
     pickup_location = models.CharField(max_length=300)

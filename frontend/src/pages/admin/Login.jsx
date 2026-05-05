@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
+import Logo from '../../components/Logo'
 
 export default function AdminLogin() {
   const { t } = useTranslation()
@@ -25,10 +26,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <span className="font-heading flex flex-col items-center leading-none">
-            <span className="text-2xl font-bold tracking-[0.2em] text-primary">LEKS<span className="text-gold">CAR</span></span>
-            <span className="text-[9px] font-semibold tracking-[0.35em] text-gold/70 uppercase mt-0.5">Rental</span>
-          </span>
+          <Logo className="h-20 w-auto mx-auto" />
           <p className="text-secondary text-sm mt-2">{t('admin.login_title')}</p>
         </div>
 

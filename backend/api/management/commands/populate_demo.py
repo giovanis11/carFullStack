@@ -1,6 +1,8 @@
 import urllib.request
+import urllib.error
 import ssl
 import os
+import time
 from django.core.management.base import BaseCommand
 from django.core.files import File
 from django.conf import settings
@@ -176,23 +178,271 @@ CARS = [
             "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=1200&q=85",
         ],
     },
+    {
+        "name": "720S Spider",
+        "brand": "McLaren",
+        "category": "sports",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 710,
+        "seats": 2,
+        "year": 2022,
+        "price_per_day": 1450,
+        "sale_price": 295000,
+        "min_driver_age": 28,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Ανοιχτό supercar με ανθρακονημάτινο monocoque και εκρηκτικές επιδόσεις στην κατηγορία του.",
+        "description_en": "Open-top supercar with a carbon-fibre monocage and explosive performance.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:FilePath/McLaren_720S_Spider_(2022)_(53332391959).jpg",
+        ],
+    },
+    {
+        "name": "R8 V10 Performance",
+        "brand": "Audi",
+        "category": "sports",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 620,
+        "seats": 2,
+        "year": 2023,
+        "price_per_day": 1180,
+        "sale_price": 198000,
+        "min_driver_age": 27,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Το ατμοσφαιρικό V10 της Audi σε ένα καθημερινά χρηστικό αλλά αυθεντικά εξωτικό supercar.",
+        "description_en": "Audi's naturally aspirated V10 in a supercar that balances drama with everyday usability.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:FilePath/Audi_R8_V10_Performance.jpg",
+        ],
+    },
+    {
+        "name": "M8 Competition Coupe",
+        "brand": "BMW",
+        "category": "sports",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 625,
+        "seats": 4,
+        "year": 2023,
+        "price_per_day": 650,
+        "sale_price": 166000,
+        "min_driver_age": 25,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Μεγάλο GT coupe με twin-turbo V8, τετρακίνηση και premium χαρακτήρα για ταξίδι ή γρήγορη οδήγηση.",
+        "description_en": "High-performance GT coupe with a twin-turbo V8, all-wheel drive and premium long-distance comfort.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/BMW_M8_Competition_Coup%C3%A9_(52502025936).jpg?width=1600",
+        ],
+    },
+    {
+        "name": "Cullinan Black Badge",
+        "brand": "Rolls-Royce",
+        "category": "luxury",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 600,
+        "seats": 5,
+        "year": 2023,
+        "price_per_day": 1850,
+        "sale_price": 425000,
+        "min_driver_age": 30,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Η πιο δυναμική εκδοχή του Cullinan με απόλυτη ησυχία, πολυτέλεια και παρουσία δρόμου.",
+        "description_en": "The boldest Cullinan variant, combining serene comfort, luxury and imposing road presence.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/2021_Rolls_Royce_Cullinan_Black_Badge.jpg?width=1600",
+        ],
+    },
+    {
+        "name": "S 580 4MATIC",
+        "brand": "Mercedes-Benz",
+        "category": "luxury",
+        "fuel_type": "hybrid",
+        "transmission": "automatic",
+        "horsepower": 503,
+        "seats": 5,
+        "year": 2023,
+        "price_per_day": 560,
+        "sale_price": 168000,
+        "min_driver_age": 25,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Η flagship S-Class με κορυφαία άνεση, τεχνολογία και 4MATIC πρόσφυση για VIP μετακινήσεις.",
+        "description_en": "Flagship S-Class luxury with top-tier comfort, technology and 4MATIC stability for VIP travel.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:FilePath/Mercedes-Benz_W223_S_580_4matic_black_(1).jpg",
+        ],
+    },
+    {
+        "name": "Cayenne Turbo GT",
+        "brand": "Porsche",
+        "category": "suv",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 640,
+        "seats": 5,
+        "year": 2023,
+        "price_per_day": 590,
+        "sale_price": 215000,
+        "min_driver_age": 25,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "SUV υψηλών επιδόσεων που μεταφέρει τον χαρακτήρα GT της Porsche σε οικογενειακό αμάξωμα.",
+        "description_en": "High-performance SUV that brings Porsche GT character into a practical family-bodied package.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:FilePath/2022_Porsche_Cayenne_Turbo_GT.jpg",
+        ],
+    },
+    {
+        "name": "Roma",
+        "brand": "Ferrari",
+        "category": "luxury",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 620,
+        "seats": 4,
+        "year": 2023,
+        "price_per_day": 1280,
+        "sale_price": 258000,
+        "min_driver_age": 28,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Κομψό grand tourer της Ferrari με V8 δύναμη και πιο διακριτική ιταλική αισθητική.",
+        "description_en": "Elegant Ferrari grand tourer pairing V8 power with a more understated Italian design language.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Ferrari_Roma.jpg?width=1600",
+        ],
+    },
+    {
+        "name": "Vantage V12 Roadster",
+        "brand": "Aston Martin",
+        "category": "convertible",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 700,
+        "seats": 2,
+        "year": 2023,
+        "price_per_day": 1320,
+        "sale_price": 265000,
+        "min_driver_age": 28,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Σπάνιο ανοιχτό Aston Martin με V12 ήχο και εκλεπτυσμένη βρετανική αισθητική.",
+        "description_en": "Rare open-top Aston Martin with V12 theatre and unmistakable British style.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/2023_Aston_Martin_Vantage_V12_Roadster.jpg?width=1600",
+        ],
+    },
+    {
+        "name": "Flying Spur Speed",
+        "brand": "Bentley",
+        "category": "luxury",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 635,
+        "seats": 5,
+        "year": 2023,
+        "price_per_day": 1380,
+        "sale_price": 298000,
+        "min_driver_age": 30,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Σπορ λιμουζίνα της Bentley που συνδυάζει χειροποίητη πολυτέλεια με W12 επιδόσεις.",
+        "description_en": "Bentley's sporting limousine, blending handcrafted luxury with W12 performance.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bentley_Flying_Spur_Speed_(2023)_(52956830267).jpg?width=1600",
+        ],
+    },
+    {
+        "name": "MC20",
+        "brand": "Maserati",
+        "category": "sports",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 621,
+        "seats": 2,
+        "year": 2023,
+        "price_per_day": 1220,
+        "sale_price": 235000,
+        "min_driver_age": 28,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Νέας γενιάς ιταλικό supercar με Nettuno V6 και επιθετική αλλά κομψή σχεδίαση.",
+        "description_en": "Next-generation Italian supercar with the Nettuno V6 and a sharp yet elegant design.",
+        "images": [
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Maserati_MC20.jpg?width=1600",
+        ],
+    },
+    {
+        "name": "RS 6 Avant Performance",
+        "brand": "Audi",
+        "category": "sedan",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 605,
+        "seats": 5,
+        "year": 2022,
+        "price_per_day": 480,
+        "sale_price": 138000,
+        "min_driver_age": 25,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Το απόλυτο performance wagon της Audi με V8 ισχύ και τεράστια πρακτικότητα.",
+        "description_en": "Audi's ultimate performance wagon, mixing V8 power with real everyday practicality.",
+        "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Audi_RS6_Avant_performance_%28C7%29_front.jpg/1280px-Audi_RS6_Avant_performance_%28C7%29_front.jpg",
+        ],
+    },
+    {
+        "name": "SL 63",
+        "brand": "Mercedes-AMG",
+        "category": "convertible",
+        "fuel_type": "petrol",
+        "transmission": "automatic",
+        "horsepower": 577,
+        "seats": 4,
+        "year": 2023,
+        "price_per_day": 980,
+        "sale_price": 199000,
+        "min_driver_age": 28,
+        "listing_type": "both",
+        "is_featured": False,
+        "description_el": "Πολυτελές roadster υψηλών επιδόσεων με AMG V8 δύναμη και καθημερινή άνεση.",
+        "description_en": "High-performance luxury roadster with AMG V8 power and everyday grand-touring comfort.",
+        "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2022_Mercedes-Benz_SL63_AMG_in_Patagonia_Red_Metallic%2C_front_right.jpg/1280px-2022_Mercedes-Benz_SL63_AMG_in_Patagonia_Red_Metallic%2C_front_right.jpg",
+        ],
+    },
 ]
 
 
 class Command(BaseCommand):
-    help = 'Populate database with demo cars and download images from Unsplash'
+    help = 'Populate or update demo cars and download their images'
 
     def handle(self, *args, **options):
-        if Car.objects.exists():
-            self.stdout.write(self.style.WARNING('Cars already exist — clearing and repopulating...'))
-            Car.objects.all().delete()
-
         media_cars = os.path.join(settings.MEDIA_ROOT, 'cars')
         os.makedirs(media_cars, exist_ok=True)
 
-        for car_data in CARS:
+        for template in CARS:
+            car_data = template.copy()
             image_urls = car_data.pop('images')
-            car = Car.objects.create(**car_data)
+            brand = car_data['brand']
+            name = car_data['name']
+            car, created = Car.objects.update_or_create(
+                brand=brand,
+                name=name,
+                defaults=car_data,
+            )
+
+            if car.images.exists():
+                status_label = 'updated' if not created else 'created'
+                self.stdout.write(self.style.SUCCESS(f'✓ {car.brand} {car.name} ({status_label}, images kept)'))
+                continue
 
             for idx, url in enumerate(image_urls):
                 filename = f"{car.brand.lower().replace(' ', '_')}_{car.name.lower().replace(' ', '_')}_{idx+1}.jpg"
@@ -201,18 +451,36 @@ class Command(BaseCommand):
                 try:
                     self.stdout.write(f"  Downloading {filename}...")
                     ctx = ssl._create_unverified_context()
-                    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                    with urllib.request.urlopen(req, timeout=15, context=ctx) as response:
-                        with open(filepath, 'wb') as f:
-                            f.write(response.read())
+                    downloaded = False
+                    for attempt in range(4):
+                        try:
+                            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                            with urllib.request.urlopen(req, timeout=20, context=ctx) as response:
+                                with open(filepath, 'wb') as f:
+                                    f.write(response.read())
+                            downloaded = True
+                            break
+                        except urllib.error.HTTPError as exc:
+                            if exc.code == 429 and attempt < 3:
+                                wait_seconds = 3 * (attempt + 1)
+                                self.stdout.write(f"    Rate limited, retrying in {wait_seconds}s...")
+                                time.sleep(wait_seconds)
+                                continue
+                            raise
+
+                    if not downloaded:
+                        raise RuntimeError('Image download failed after retries.')
 
                     car_image = CarImage(car=car, is_primary=(idx == 0), order=idx)
                     car_image.image.name = f'cars/{filename}'
                     car_image.save()
 
+                    time.sleep(1)
+
                 except Exception as e:
                     self.stdout.write(self.style.WARNING(f'    Could not download image: {e}'))
 
-            self.stdout.write(self.style.SUCCESS(f'✓ {car.brand} {car.name}'))
+            status_label = 'created' if created else 'updated'
+            self.stdout.write(self.style.SUCCESS(f'✓ {car.brand} {car.name} ({status_label})'))
 
         self.stdout.write(self.style.SUCCESS(f'\nDone! {Car.objects.count()} cars created.'))

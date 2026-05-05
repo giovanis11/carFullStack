@@ -5,6 +5,7 @@ import { adminApi } from '../../api'
 import { useAuth } from '../../context/AuthContext'
 import StatusBadge from '../../components/StatusBadge'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import Logo from '../../components/Logo'
 
 const TABS = ['rentals', 'sales', 'transfers']
 
@@ -81,6 +82,10 @@ function RequestCard({ req, type, onStatusUpdate }) {
             </div>
             {type === 'rental' && (
               <>
+                <div>
+                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('admin.driver_age')}</p>
+                  <p className="text-primary">{req.driver_age}</p>
+                </div>
                 <div>
                   <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('admin.pickup')}</p>
                   <p className="text-primary">{req.pickup_location}</p>
@@ -215,11 +220,10 @@ export default function AdminDashboard() {
       {/* Top bar */}
       <div className="bg-card border-b border-border sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <span className="font-heading flex items-baseline gap-2">
-            <span className="text-sm font-bold tracking-[0.2em] text-primary">LEKS<span className="text-gold">CAR</span></span>
-            <span className="text-[9px] font-semibold tracking-[0.3em] text-gold/60 uppercase">Rental</span>
-            <span className="font-sans text-secondary font-normal text-xs ml-1">/ Admin</span>
-          </span>
+          <div className="flex items-center gap-2">
+            <Logo className="h-11 w-auto" />
+            <span className="font-sans text-secondary font-normal text-xs">/ Admin</span>
+          </div>
           <button onClick={handleLogout} className="text-xs text-secondary hover:text-gold transition-colors uppercase tracking-wider">
             {t('admin.logout')}
           </button>

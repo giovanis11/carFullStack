@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .models import Car, RentalRequest, SaleInquiry, TransferRequest
+from .models import Car, RentalRequest, SaleInquiry, TransferRequest, RequestStatus
 from .serializers import (
     CarListSerializer, CarDetailSerializer,
     RentalRequestSerializer, SaleInquirySerializer,
@@ -116,7 +116,25 @@ class AdminRequestStatusUpdateView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        obj.status = serializer.validated_data['status']
+        new_status = serializer.validated_data['status']
+        if (
+            request_type == 'rental'
+            and new_status == RequestStatus.APPROVED
+            and obj.car
+        ):
+            overlapping_bookings = RentalRequest.objects.filter(
+                car=obj.car,
+                status=RequestStatus.APPROVED,
+                pickup_date__lt=obj.return_date,
+                return_date__gt=obj.pickup_date,
+            ).exclude(pk=obj.pk)
+            if overlapping_bookings.exists():
+                return Response(
+                    {'detail': 'This car is already booked for those dates.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        obj.status = new_status
         obj.save(update_fields=['status'])
 
         # Return updated object using appropriate serializer

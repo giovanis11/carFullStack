@@ -1,10 +1,14 @@
 import django_filters
-from .models import Car
+from django.db.models import Exists, OuterRef
+
+from .models import Car, RentalRequest, RequestStatus
 
 
 class CarFilter(django_filters.FilterSet):
     brand = django_filters.CharFilter(field_name='brand', lookup_expr='iexact')
     brands = django_filters.BaseInFilter(field_name='brand', lookup_expr='in')
+    available_from = django_filters.DateFilter(method='filter_noop')
+    available_to = django_filters.DateFilter(method='filter_noop')
     category = django_filters.CharFilter(field_name='category', lookup_expr='iexact')
     transmission = django_filters.CharFilter(field_name='transmission', lookup_expr='iexact')
     fuel_type = django_filters.CharFilter(field_name='fuel_type', lookup_expr='iexact')
@@ -24,9 +28,30 @@ class CarFilter(django_filters.FilterSet):
     class Meta:
         model = Car
         fields = [
-            'brand', 'category', 'transmission', 'fuel_type', 'seats',
+            'brand', 'available_from', 'available_to', 'category', 'transmission', 'fuel_type', 'seats',
             'listing_type', 'is_available', 'is_featured',
         ]
+
+    def filter_queryset(self, queryset):
+        queryset = super().filter_queryset(queryset)
+        available_from = self.form.cleaned_data.get('available_from')
+        available_to = self.form.cleaned_data.get('available_to')
+
+        if not available_from or not available_to:
+            return queryset
+
+        if available_to <= available_from:
+            return queryset.none()
+
+        overlapping_bookings = RentalRequest.objects.filter(
+            car=OuterRef('pk'),
+            status=RequestStatus.APPROVED,
+            pickup_date__lt=available_to,
+            return_date__gt=available_from,
+        )
+        return queryset.annotate(
+            has_booking_overlap=Exists(overlapping_bookings)
+        ).filter(has_booking_overlap=False)
 
     def filter_listing_type(self, queryset, name, value):
         if value == 'rent':

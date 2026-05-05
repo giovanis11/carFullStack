@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car, CarImage, RentalRequest, SaleInquiry, TransferRequest
+from .models import Car, CarImage, RentalRequest, SaleInquiry, TransferRequest, RequestStatus
 
 
 class CarImageSerializer(serializers.ModelSerializer):
@@ -45,6 +45,7 @@ class CarDetailSerializer(serializers.ModelSerializer):
     category_display = serializers.CharField(source='get_category_display', read_only=True)
     fuel_display = serializers.CharField(source='get_fuel_type_display', read_only=True)
     transmission_display = serializers.CharField(source='get_transmission_display', read_only=True)
+    approved_bookings = serializers.SerializerMethodField()
 
     class Meta:
         model = Car
@@ -53,7 +54,17 @@ class CarDetailSerializer(serializers.ModelSerializer):
             'fuel_type', 'fuel_display', 'transmission', 'transmission_display',
             'horsepower', 'seats', 'year', 'price_per_day', 'sale_price',
             'is_available', 'min_driver_age', 'listing_type', 'is_featured',
-            'description_el', 'description_en', 'images', 'created_at',
+            'description_el', 'description_en', 'images', 'approved_bookings', 'created_at',
+        ]
+
+    def get_approved_bookings(self, obj):
+        bookings = obj.rental_requests.filter(status=RequestStatus.APPROVED).order_by('pickup_date')
+        return [
+            {
+                'pickup_date': booking.pickup_date.isoformat(),
+                'return_date': booking.return_date.isoformat(),
+            }
+            for booking in bookings
         ]
 
 
@@ -63,7 +74,7 @@ class RentalRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = RentalRequest
         fields = [
-            'id', 'car', 'car_name', 'full_name', 'phone', 'email',
+            'id', 'car', 'car_name', 'full_name', 'phone', 'email', 'driver_age',
             'pickup_date', 'return_date', 'pickup_location', 'notes',
             'status', 'created_at',
         ]
@@ -75,9 +86,34 @@ class RentalRequestSerializer(serializers.ModelSerializer):
         return None
 
     def validate(self, data):
-        if data.get('return_date') and data.get('pickup_date'):
-            if data['return_date'] <= data['pickup_date']:
-                raise serializers.ValidationError("Return date must be after pickup date.")
+        pickup_date = data.get('pickup_date')
+        return_date = data.get('return_date')
+        car = data.get('car')
+        driver_age = data.get('driver_age')
+
+        if return_date and pickup_date and return_date <= pickup_date:
+            raise serializers.ValidationError("Return date must be after pickup date.")
+
+        if car and driver_age is not None and driver_age < car.min_driver_age:
+            raise serializers.ValidationError({
+                'driver_age': f'Driver must be at least {car.min_driver_age} years old for this car.'
+            })
+
+        if car and pickup_date and return_date:
+            overlapping_bookings = RentalRequest.objects.filter(
+                car=car,
+                status=RequestStatus.APPROVED,
+                pickup_date__lt=return_date,
+                return_date__gt=pickup_date,
+            )
+            if self.instance:
+                overlapping_bookings = overlapping_bookings.exclude(pk=self.instance.pk)
+
+            if overlapping_bookings.exists():
+                raise serializers.ValidationError(
+                    'This car is already booked for the selected dates.'
+                )
+
         return data
 
 

@@ -73,8 +73,8 @@ export default function BuyDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 space-y-6">
-            <div className="aspect-[16/10] overflow-hidden bg-[#1a1a1a]">
-              <img src={images[activeImage]?.image_url || PLACEHOLDER} alt={`${car.brand} ${car.name}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = PLACEHOLDER }} />
+            <div className="card overflow-hidden">
+              <img src={images[activeImage]?.image_url || PLACEHOLDER} alt={`${car.brand} ${car.name}`} className="w-full aspect-[16/10] object-cover" onError={(e) => { e.target.src = PLACEHOLDER }} />
             </div>
 
             {images.length > 1 && (
@@ -87,7 +87,7 @@ export default function BuyDetail() {
               </div>
             )}
 
-            <div>
+            <div className="card p-5">
               <p className="text-xs text-secondary uppercase tracking-widest mb-1">{car.brand}</p>
               <h1 className="text-2xl md:text-3xl font-bold text-primary">{car.name}</h1>
               <div className="flex items-center gap-3 mt-2">
@@ -98,7 +98,7 @@ export default function BuyDetail() {
             </div>
 
             {car.sale_price && (
-              <div className="py-4 border-t border-b border-border">
+              <div className="card p-5">
                 <p className="text-xs text-secondary mb-1">{t('car_detail.sale_price')}</p>
                 <p className="text-3xl font-bold text-gold">€{parseFloat(car.sale_price).toLocaleString()}</p>
               </div>

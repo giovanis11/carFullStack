@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { carsApi } from '../api'
+import heroVideo from '../assets/hero-video.mov'
 import CarCard from '../components/CarCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 
@@ -26,28 +27,26 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-bg" />
-        {/* Subtle grid overlay */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: 'linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)',
-            backgroundSize: '80px 80px',
-          }}
-        />
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="inline-block border border-gold/30 px-4 py-1.5 mb-6">
-            <span className="text-gold text-xs font-semibold tracking-[0.3em] uppercase">Athens, Greece</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-primary leading-none tracking-tight mb-6">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="relative z-10 text-center px-4 max-w-6xl mx-auto pt-20 md:pt-28">
+          <h1 className="mx-auto max-w-6xl text-3xl font-medium text-primary leading-[1.05] tracking-[-0.03em] md:text-5xl md:whitespace-nowrap lg:text-[4rem] mb-7">
             {t('home.hero_title')}
           </h1>
-          <p className="text-secondary text-lg md:text-xl mb-10 max-w-xl mx-auto">
+          <p className="mx-auto max-w-3xl text-sm font-normal leading-relaxed text-primary/82 md:text-xl md:leading-[1.45] mb-12">
             {t('home.hero_subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/rent" className="btn-gold px-10 py-4 text-sm font-semibold tracking-widest uppercase">
+            <Link to="/rent" className="border border-gold bg-transparent px-10 py-4 text-sm font-semibold tracking-widest uppercase text-gold transition-colors duration-300 hover:bg-gold hover:text-black">
               {t('home.hero_cta_rent')}
             </Link>
             <Link to="/buy" className="btn-outline px-10 py-4 text-sm font-semibold tracking-widest uppercase">

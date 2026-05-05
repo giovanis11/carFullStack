@@ -7,8 +7,8 @@
     "about": "About"
   },
   "home": {
-    "hero_title": "Drive the Extraordinary",
-    "hero_subtitle": "Luxury car rental & sales in Athens, Greece",
+    "hero_title": "Luxury Car Rental in Athens",
+    "hero_subtitle": "A curated collection of premium vehicles with discreet service and clear rental terms",
     "hero_cta": "Explore Cars",
     "hero_cta_rent": "Rent Now",
     "about_title": "The Luxury Experience",
@@ -68,6 +68,7 @@
     "full_name": "Full Name",
     "phone": "Phone Number",
     "email": "Email",
+    "driver_age": "Driver Age",
     "pickup_date": "Pickup Date",
     "return_date": "Return Date",
     "pickup_location": "Pickup Location",
@@ -81,6 +82,7 @@
     "transmission": "Transmission",
     "fuel": "Fuel",
     "horsepower": "Horsepower",
+    "price": "Price",
     "seats": "Seats",
     "year": "Year",
     "min_age": "Min. Driver Age",
@@ -88,7 +90,13 @@
     "sale_price": "Sale Price",
     "available": "Available",
     "unavailable": "Unavailable",
-    "back": "Back"
+    "back": "Back",
+    "availability_calendar": "Availability Calendar",
+    "calendar_hint": "Booked days are crossed out. You can tap available days below or use the date fields.",
+    "booked_ranges": "Booked dates",
+    "no_booked_dates": "No approved bookings yet for this car.",
+    "date_conflict": "These dates overlap an approved booking for this car.",
+    "driver_age_too_low": "Driver must be at least {{age}} years old for this car."
   },
   "transfers": {
     "title": "Transfers",
@@ -140,6 +148,7 @@
     "phone": "Phone",
     "email": "Email",
     "notes": "Notes",
+    "driver_age": "Driver Age",
     "status": "Status",
     "submitted": "Submitted"
   },
