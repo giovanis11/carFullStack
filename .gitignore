@@ -1,0 +1,19 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+backend/venv/
+backend/staticfiles/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Local media and OS files
+.DS_Store
+backend/media/

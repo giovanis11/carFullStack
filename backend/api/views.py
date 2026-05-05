@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import api_view, permission_classes, action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
@@ -65,7 +65,7 @@ class TransferRequestCreateView(generics.CreateAPIView):
 
 
 class AdminRequestListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request):
         rentals = RentalRequestSerializer(
@@ -94,7 +94,7 @@ class AdminRequestListView(APIView):
 
 
 class AdminRequestStatusUpdateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     MODEL_MAP = {
         'rental': RentalRequest,
