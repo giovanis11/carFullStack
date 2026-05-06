@@ -19,7 +19,8 @@ class Command(BaseCommand):
         skipped = 0
 
         for car_image in CarImage.objects.all():
-            image_name = car_image.image.name
+            image_field = car_image.image
+            image_name = getattr(image_field, 'name', None)
             if not image_name:
                 skipped += 1
                 continue
