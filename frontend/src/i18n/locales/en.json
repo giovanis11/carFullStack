@@ -27,7 +27,14 @@
     "trust_4_title": "Parking & Airport Services",
     "trust_4_text": "Secure parking and complete travel support services for your journey.",
     "trust_5_title": "Premium Fleet",
-    "trust_5_text": "Selected high-spec vehicles maintained in excellent condition."
+    "trust_5_text": "Selected high-spec vehicles maintained in excellent condition.",
+    "locations_title": "Service Locations",
+    "locations_subtitle": "View our key locations on the map and open turn-by-turn directions instantly.",
+    "location_1_name": "Leks Car Rental",
+    "location_1_text": "Our main service location for vehicle rentals and handovers.",
+    "location_2_name": "AIR POINT PARKING & STAY",
+    "location_2_text": "A service point near the airport for parking, transfers and fast access.",
+    "open_maps": "Open in Maps"
   },
   "rent": {
     "title": "Car Rental",
@@ -158,8 +165,11 @@
   },
   "footer": {
     "description": "Luxury car rental & sales in Athens, Greece.",
+    "navigation": "Navigation",
     "contact": "Contact",
     "address": "Athens, Greece",
+    "viber": "Viber",
+    "whatsapp": "WhatsApp",
     "rights": "All rights reserved."
   },
   "categories": {

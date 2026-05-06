@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { carsApi } from '../api'
 import heroVideo from '../assets/hero-video.mp4'
+import airportLocationImage from '../assets/airport-location.png'
+import lekscarLocationImage from '../assets/lekscar-location.png'
 import CarCard from '../components/CarCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 
@@ -12,6 +14,21 @@ const TRUST_ICONS = [
   <svg key="3" className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 11l9-8 9 8M5 10v9h14v-9M9 19v-5h6v5" /></svg>,
   <svg key="4" className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 17l6-6 4 4 7-8" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 7h6v6" /></svg>,
   <svg key="5" className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 13l4-8h8l4 8-2 6H6l-2-6z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 9h6" /></svg>,
+]
+
+const LOCATION_MAPS = [
+  {
+    nameKey: 'home.location_1_name',
+    descriptionKey: 'home.location_1_text',
+    imageSrc: lekscarLocationImage,
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Leks+Car+Rental',
+  },
+  {
+    nameKey: 'home.location_2_name',
+    descriptionKey: 'home.location_2_text',
+    imageSrc: airportLocationImage,
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=AIR+POINT+PARKING+%26+STAY',
+  },
 ]
 
 export default function Home() {
@@ -122,45 +139,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Banner */}
       <section className="py-20 px-4 border-t border-border">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="section-title mb-4">{t('transfers.title')}</h2>
-          <p className="text-secondary mb-8">{t('transfers.subtitle')}</p>
-          <Link to="/transfers" className="btn-gold px-10 py-4 text-sm font-semibold tracking-widest uppercase">
-            {t('transfers.form_title')} →
-          </Link>
-        </div>
-      </section>
-
-      {/* About section */}
-      <section className="py-20 md:py-28 px-4 border-t border-border">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="w-12 h-px bg-gold mb-6" />
-              <h2 className="section-title mb-5">{t('home.about_title')}</h2>
-              <p className="text-secondary leading-relaxed">{t('home.about_text')}</p>
-              <Link to="/rent" className="inline-block mt-8 text-sm text-gold font-medium tracking-wide hover:underline">
-                {t('home.hero_cta')} →
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { number: '50+', label: t('home.trust_1_title') },
-                { number: '24/7', label: t('home.trust_2_title') },
-                { number: '5★', label: 'Rating' },
-                { number: '10+', label: 'Years' },
-              ].map(({ number, label }) => (
-                <div key={label} className="card p-6 text-center">
-                  <p className="text-3xl font-bold text-gold mb-1">{number}</p>
-                  <p className="text-xs text-secondary uppercase tracking-wider">{label}</p>
+          <div className="text-center mb-12">
+            <div className="w-8 h-px bg-gold mx-auto mb-4" />
+            <h2 className="section-title">{t('home.locations_title')}</h2>
+            <p className="text-secondary text-sm mt-3 max-w-2xl mx-auto">{t('home.locations_subtitle')}</p>
+          </div>
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            {LOCATION_MAPS.map((location) => (
+              <div key={location.nameKey} className="card overflow-hidden">
+                <div className="aspect-[4/3] bg-black">
+                  {location.imageSrc ? (
+                    <img
+                      src={location.imageSrc}
+                      alt={t(location.nameKey)}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <iframe
+                      src={location.embedSrc}
+                      className="h-full w-full"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={t(location.nameKey)}
+                    />
+                  )}
                 </div>
-              ))}
-            </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-primary">{t(location.nameKey)}</h3>
+                  <p className="mt-2 text-sm text-secondary">{t(location.descriptionKey)}</p>
+                  <a
+                    href={location.directionsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-5 inline-flex items-center rounded-full border border-gold px-5 py-2.5 text-sm text-gold tracking-wide transition-colors duration-300 hover:bg-gold hover:text-black"
+                  >
+                    {t('home.open_maps')} →
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
     </div>
   )
 }
