@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Car(models.Model):
@@ -61,7 +62,7 @@ class Car(models.Model):
 
 class CarImage(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='cars/')
+    image = CloudinaryField('image')
     is_primary = models.BooleanField(default=False)
     order = models.IntegerField(default=0)
 
