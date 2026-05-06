@@ -18,12 +18,16 @@
     "view_all_rent": "View All Rentals",
     "view_all_buy": "View All for Sale",
     "trust_title": "Why Choose Us",
-    "trust_1_title": "Premium Fleet",
-    "trust_1_text": "Curated cars from the world's top brands",
-    "trust_2_title": "24/7 Support",
-    "trust_2_text": "Always here when you need us",
-    "trust_3_title": "Flexible Pricing",
-    "trust_3_text": "Competitive rates for every need"
+    "trust_1_title": "Vehicle Rental",
+    "trust_1_text": "Flexible rental options tailored to your needs.",
+    "trust_2_title": "Vehicle Delivery",
+    "trust_2_text": "Receive the vehicle at the location that suits you, promptly and without waiting.",
+    "trust_3_title": "Airport Transfers",
+    "trust_3_text": "Transfer options with or without accompaniment, with comfort and flexibility.",
+    "trust_4_title": "Parking & Airport Services",
+    "trust_4_text": "Secure parking and complete travel support services for your journey.",
+    "trust_5_title": "Premium Fleet",
+    "trust_5_text": "Selected high-spec vehicles maintained in excellent condition."
   },
   "rent": {
     "title": "Car Rental",
