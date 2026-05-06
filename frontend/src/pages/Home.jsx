@@ -74,7 +74,7 @@ export default function Home() {
               <h2 className="section-title">{t('home.featured_title')}</h2>
               <p className="text-secondary text-sm mt-2">{t('home.featured_subtitle')}</p>
             </div>
-            <Link to="/rent" className="mt-4 sm:mt-0 inline-flex items-center rounded-full border border-gold px-5 py-2.5 text-sm text-gold tracking-wide shrink-0 transition-colors duration-300 hover:bg-gold hover:text-black">
+            <Link to="/rent" className="mt-4 hidden sm:inline-flex sm:mt-0 items-center rounded-full border border-gold px-5 py-2.5 text-sm text-gold tracking-wide shrink-0 transition-colors duration-300 hover:bg-gold hover:text-black">
               {t('home.view_all_rent')} →
             </Link>
           </div>
@@ -90,6 +90,14 @@ export default function Home() {
               {featured.map((car) => (
                 <CarCard key={car.id} car={car} mode={car.listing_type === 'buy' ? 'buy' : 'rent'} />
               ))}
+            </div>
+          )}
+
+          {!loading && (
+            <div className="mt-6 flex justify-center sm:hidden">
+              <Link to="/rent" className="inline-flex items-center rounded-full border border-gold px-5 py-2.5 text-sm text-gold tracking-wide transition-colors duration-300 hover:bg-gold hover:text-black">
+                {t('home.view_all_rent')} →
+              </Link>
             </div>
           )}
         </div>
