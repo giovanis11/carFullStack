@@ -119,8 +119,6 @@ if USE_CLOUDINARY:
         'API_SECRET': CLOUDINARY_API_SECRET,
         'SECURE': True,
     }
-    # django-cloudinary-storage expects DEFAULT_FILE_STORAGE on Django < 5.1.
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
