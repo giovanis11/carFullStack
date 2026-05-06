@@ -1,11 +1,22 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Car, CarImage, RentalRequest, SaleInquiry, TransferRequest
 
 
 class CarImageInline(admin.TabularInline):
     model = CarImage
-    extra = 3
-    fields = ['image', 'is_primary', 'order']
+    extra = 1
+    fields = ['preview', 'image', 'is_primary', 'order']
+    readonly_fields = ['preview']
+
+    def preview(self, obj):
+        if not obj.pk or not obj.image:
+            return 'Upload an image to preview it here.'
+        return format_html(
+            '<img src="{}" alt="Car image preview" style="height: 80px; width: auto; border-radius: 6px;" />',
+            obj.image.url,
+        )
+    preview.short_description = 'Preview'
 
 
 @admin.register(Car)

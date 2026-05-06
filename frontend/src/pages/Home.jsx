@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { carsApi } from '../api'
-import heroVideo from '../assets/hero-video.mov'
+import heroVideo from '../assets/hero-video.mp4'
 import CarCard from '../components/CarCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 
@@ -16,11 +16,15 @@ export default function Home() {
   const { t } = useTranslation()
   const [featured, setFeatured] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     carsApi.featured()
-      .then(({ data }) => setFeatured(data))
-      .catch(() => {})
+      .then(({ data }) => {
+        setFeatured(data)
+        setError(false)
+      })
+      .catch(() => setError(true))
       .finally(() => setLoading(false))
   }, [])
 
@@ -34,6 +38,7 @@ export default function Home() {
           loop
           muted
           playsInline
+          preload="metadata"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>
@@ -107,6 +112,8 @@ export default function Home() {
 
           {loading ? (
             <div className="py-16"><LoadingSpinner size="lg" /></div>
+          ) : error ? (
+            <p className="text-secondary text-center py-16">{t('common.error')} {t('common.retry')}</p>
           ) : featured.length === 0 ? (
             <p className="text-secondary text-center py-16">{t('rent.no_cars')}</p>
           ) : (

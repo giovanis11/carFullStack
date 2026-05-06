@@ -5,6 +5,12 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
+CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY', default='')
+CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default='')
+USE_CLOUDINARY = bool(CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME)
+
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
@@ -23,6 +29,13 @@ INSTALLED_APPS = [
     'django_filters',
     'api',
 ]
+
+if USE_CLOUDINARY:
+    staticfiles_index = INSTALLED_APPS.index('django.contrib.staticfiles') + 1
+    INSTALLED_APPS[staticfiles_index:staticfiles_index] = [
+        'cloudinary_storage',
+        'cloudinary',
+    ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -75,10 +88,30 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage'
+        if USE_CLOUDINARY
+        else 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
+
+if USE_CLOUDINARY:
+    if CLOUDINARY_URL:
+        os.environ.setdefault('CLOUDINARY_URL', CLOUDINARY_URL)
+    if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+        CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+            'API_KEY': CLOUDINARY_API_KEY,
+            'API_SECRET': CLOUDINARY_API_SECRET,
+            'SECURE': True,
+        }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
