@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from decouple import config, Csv
 import dj_database_url
+import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -119,6 +120,13 @@ if USE_CLOUDINARY:
         'API_SECRET': CLOUDINARY_API_SECRET,
         'SECURE': True,
     }
+    CLOUDINARY = {
+        'cloud_name': CLOUDINARY_CLOUD_NAME,
+        'api_key': CLOUDINARY_API_KEY,
+        'api_secret': CLOUDINARY_API_SECRET,
+        'secure': True,
+    }
+    cloudinary.config(**CLOUDINARY)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
