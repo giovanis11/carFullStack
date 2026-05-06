@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 from decouple import config, Csv
 import dj_database_url
 
@@ -9,6 +10,13 @@ CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
 CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default='')
+
+if CLOUDINARY_URL and not (CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET):
+    parsed_cloudinary_url = urlparse(CLOUDINARY_URL)
+    CLOUDINARY_CLOUD_NAME = CLOUDINARY_CLOUD_NAME or parsed_cloudinary_url.hostname or ''
+    CLOUDINARY_API_KEY = CLOUDINARY_API_KEY or parsed_cloudinary_url.username or ''
+    CLOUDINARY_API_SECRET = CLOUDINARY_API_SECRET or parsed_cloudinary_url.password or ''
+
 USE_CLOUDINARY = bool(CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME)
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
@@ -105,13 +113,12 @@ STORAGES = {
 if USE_CLOUDINARY:
     if CLOUDINARY_URL:
         os.environ.setdefault('CLOUDINARY_URL', CLOUDINARY_URL)
-    if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
-        CLOUDINARY_STORAGE = {
-            'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
-            'API_KEY': CLOUDINARY_API_KEY,
-            'API_SECRET': CLOUDINARY_API_SECRET,
-            'SECURE': True,
-        }
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': CLOUDINARY_API_KEY,
+        'API_SECRET': CLOUDINARY_API_SECRET,
+        'SECURE': True,
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
