@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Logo from './Logo'
+import footerCircleLogo from '../assets/footer-circle-logo.jpg'
 
 export default function Footer() {
   const { t } = useTranslation()
@@ -18,8 +18,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <Logo className="h-16 w-auto" />
-            <p className="mt-3 text-secondary text-base md:text-lg leading-relaxed">
+            <p className="text-secondary text-base md:text-lg leading-relaxed">
               {t('footer.description')}
             </p>
           </div>
@@ -83,11 +82,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm md:text-base text-secondary">
-          <p>&copy; {year} Lekscar Rental. {t('footer.rights')}</p>
+        <div className="relative border-t border-border mt-8 pt-6 pr-24 sm:pr-0 flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm md:text-base text-secondary">
+          <p className="max-w-[220px] sm:max-w-none">&copy; {year} Lekscar Rental. {t('footer.rights')}</p>
           <Link to="/admin/login" className="mt-2 sm:mt-0 hover:text-gold transition-colors">
             Admin
           </Link>
+          <div className="sm:hidden absolute right-0 top-1/2 -translate-y-1/2">
+            <img
+              src={footerCircleLogo}
+              alt="Lekscar emblem"
+              className="h-20 w-20 rounded-full object-cover shadow-[0_0_30px_rgba(201,168,76,0.12)]"
+            />
+          </div>
         </div>
       </div>
     </footer>
