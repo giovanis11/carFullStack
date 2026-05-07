@@ -9,6 +9,7 @@ export default function Footer() {
     { to: '/', label: t('nav.home') },
     { to: '/rent', label: t('nav.rent') },
     { to: '/buy', label: t('nav.buy') },
+    { to: '/airport', label: t('nav.airport') },
     { to: '/transfers', label: t('nav.transfers') },
   ]
 

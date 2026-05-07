@@ -9,6 +9,7 @@ import Buy from './pages/Buy'
 import CarDetail from './pages/CarDetail'
 import BuyDetail from './pages/BuyDetail'
 import Transfers from './pages/Transfers'
+import Airport from './pages/Airport'
 import NotFound from './pages/NotFound'
 import AdminLogin from './pages/admin/Login'
 import AdminDashboard from './pages/admin/Dashboard'
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/rent/:id" element={<PublicLayout><CarDetail /></PublicLayout>} />
           <Route path="/buy" element={<PublicLayout><Buy /></PublicLayout>} />
           <Route path="/buy/:id" element={<PublicLayout><BuyDetail /></PublicLayout>} />
+          <Route path="/airport" element={<PublicLayout><Airport /></PublicLayout>} />
           <Route path="/transfers" element={<PublicLayout><Transfers /></PublicLayout>} />
 
           {/* Admin routes — no public layout */}

@@ -116,14 +116,30 @@ class SaleInquiry(models.Model):
 
 
 class TransferRequest(models.Model):
+    TRANSFER_TYPE_CHOICES = [
+        ('vip', 'VIP Transfer'),
+        ('airport', 'Airport Transfer'),
+    ]
+    SECURITY_CHOICES = [
+        ('no', 'No Security'),
+        ('yes', 'Security / Bodyguards'),
+    ]
+    AIRPORT_DIRECTION_CHOICES = [
+        ('from_airport', 'From Airport'),
+        ('to_airport', 'To Airport'),
+    ]
+
     full_name = models.CharField(max_length=200)
     phone = models.CharField(max_length=30)
     email = models.EmailField()
+    transfer_type = models.CharField(max_length=20, choices=TRANSFER_TYPE_CHOICES, default='vip')
     pickup_location = models.CharField(max_length=300)
     dropoff_location = models.CharField(max_length=300)
     datetime = models.DateTimeField()
     passengers = models.IntegerField()
     flight_number = models.CharField(max_length=50, blank=True)
+    security_option = models.CharField(max_length=10, choices=SECURITY_CHOICES, default='no')
+    airport_direction = models.CharField(max_length=20, choices=AIRPORT_DIRECTION_CHOICES, blank=True, default='')
     notes = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=RequestStatus.choices, default=RequestStatus.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -15,6 +15,7 @@ export default function Navbar() {
     { path: '/', label: t('nav.home') },
     { path: '/rent', label: t('nav.rent') },
     { path: '/buy', label: t('nav.buy') },
+    { path: '/airport', label: t('nav.airport') },
     { path: '/transfers', label: t('nav.transfers') },
   ]
 

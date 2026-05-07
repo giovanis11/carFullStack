@@ -99,6 +99,12 @@ function RequestCard({ req, type, onStatusUpdate }) {
             {type === 'transfer' && (
               <>
                 <div>
+                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('admin.service_type')}</p>
+                  <p className="text-primary">
+                    {req.transfer_type === 'airport' ? t('airport.title') : t('transfers.title')}
+                  </p>
+                </div>
+                <div>
                   <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('transfers.pickup_location')}</p>
                   <p className="text-primary">{req.pickup_location}</p>
                 </div>
@@ -110,10 +116,28 @@ function RequestCard({ req, type, onStatusUpdate }) {
                   <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('transfers.passengers')}</p>
                   <p className="text-primary">{req.passengers}</p>
                 </div>
-                {req.flight_number && (
+                {req.transfer_type === 'airport' && req.airport_direction && (
                   <div>
-                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('transfers.flight_number')}</p>
+                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('airport.direction')}</p>
+                    <p className="text-primary">
+                      {req.airport_direction === 'from_airport'
+                        ? t('airport.direction_from_airport')
+                        : t('airport.direction_to_airport')}
+                    </p>
+                  </div>
+                )}
+                {req.transfer_type === 'airport' && req.flight_number && (
+                  <div>
+                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('airport.flight_number')}</p>
                     <p className="text-primary">{req.flight_number}</p>
+                  </div>
+                )}
+                {req.transfer_type === 'vip' && (
+                  <div>
+                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">{t('transfers.security_option')}</p>
+                    <p className="text-primary">
+                      {req.security_option === 'yes' ? t('transfers.security_yes') : t('transfers.security_no')}
+                    </p>
                   </div>
                 )}
               </>

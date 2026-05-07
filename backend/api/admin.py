@@ -48,8 +48,8 @@ class SaleInquiryAdmin(admin.ModelAdmin):
 
 @admin.register(TransferRequest)
 class TransferRequestAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'phone', 'pickup_location', 'dropoff_location', 'datetime', 'passengers', 'status', 'created_at']
-    list_filter = ['status', 'created_at']
+    list_display = ['full_name', 'transfer_type', 'phone', 'pickup_location', 'dropoff_location', 'datetime', 'passengers', 'security_option', 'status', 'created_at']
+    list_filter = ['transfer_type', 'status', 'created_at']
     search_fields = ['full_name', 'phone', 'email']
     list_editable = ['status']
     readonly_fields = ['created_at']

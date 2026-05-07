@@ -12,7 +12,10 @@ class CarImageSerializer(serializers.ModelSerializer):
     def get_image_url(self, obj):
         request = self.context.get('request')
         if obj.image and request:
-            return request.build_absolute_uri(obj.image.url)
+            try:
+                return request.build_absolute_uri(obj.image.url)
+            except ValueError:
+                return None
         return None
 
 
@@ -36,7 +39,10 @@ class CarListSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         img = obj.primary_image
         if img and img.image and request:
-            return request.build_absolute_uri(img.image.url)
+            try:
+                return request.build_absolute_uri(img.image.url)
+            except ValueError:
+                return None
         return None
 
 
@@ -135,14 +141,31 @@ class SaleInquirySerializer(serializers.ModelSerializer):
 
 
 class TransferRequestSerializer(serializers.ModelSerializer):
+    transfer_type_display = serializers.CharField(source='get_transfer_type_display', read_only=True)
+    airport_direction_display = serializers.CharField(source='get_airport_direction_display', read_only=True)
+
     class Meta:
         model = TransferRequest
         fields = [
             'id', 'full_name', 'phone', 'email',
+            'transfer_type', 'transfer_type_display',
             'pickup_location', 'dropoff_location', 'datetime',
-            'passengers', 'flight_number', 'notes', 'status', 'created_at',
+            'passengers', 'flight_number', 'security_option',
+            'airport_direction', 'airport_direction_display',
+            'notes', 'status', 'created_at',
         ]
         read_only_fields = ['status', 'created_at']
+
+    def validate(self, data):
+        transfer_type = data.get('transfer_type') or getattr(self.instance, 'transfer_type', 'vip')
+        airport_direction = data.get('airport_direction', getattr(self.instance, 'airport_direction', ''))
+
+        if transfer_type == 'airport' and not airport_direction:
+            raise serializers.ValidationError({
+                'airport_direction': 'Airport direction is required for airport transfers.'
+            })
+
+        return data
 
 
 class RequestStatusUpdateSerializer(serializers.Serializer):

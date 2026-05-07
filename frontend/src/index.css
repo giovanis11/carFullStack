@@ -60,6 +60,27 @@
     @apply w-full bg-black border border-border text-primary px-4 py-3 focus:outline-none focus:border-gold transition-colors placeholder-secondary text-sm;
   }
 
+  input[type="date"].input-field,
+  input[type="datetime-local"].input-field {
+    color-scheme: dark;
+    padding-right: 3rem;
+  }
+
+  input[type="datetime-local"].datetime-input {
+    padding-right: 4.75rem;
+  }
+
+  input[type="date"].input-field::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"].input-field::-webkit-calendar-picker-indicator {
+    filter: invert(76%) sepia(43%) saturate(433%) hue-rotate(7deg) brightness(95%) contrast(89%);
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  input[type="datetime-local"].datetime-input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+
   .label {
     @apply block text-secondary text-xs font-medium uppercase tracking-wider mb-2;
   }
